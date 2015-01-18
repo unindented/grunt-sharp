@@ -2,12 +2,10 @@
 
 module.exports = function (grunt) {
   var _ = grunt.util._;
-  var fs = require('fs');
   var path = require('path');
   var async = require('async');
   var chalk = require('chalk');
   var sharp = require('sharp');
-  var tmp = require('tmp');
 
   grunt.registerMultiTask('sharp', 'Resize images.', function () {
     modifyImages(getImages(this.files), this.options(), this.async());
@@ -59,10 +57,12 @@ module.exports = function (grunt) {
       return function (callback) {
         var image = sharp(src);
         _.map(task, function (args, op) {
-          image[op].apply(image, [].concat(args));
+          if (image[op]) {
+            image[op].apply(image, [].concat(args));
+          }
         });
 
-        writeImage(image, src, dest, options.rename, callback);
+        writeImage(image, src, dest, task.rename, callback);
       };
     });
 
@@ -80,35 +80,21 @@ module.exports = function (grunt) {
     var ext = path.extname(dest);
     var base = path.basename(dest, ext);
 
-    var finalDest = rename ? path.join(dir, rename) : dest;
+    dest = rename ? path.join(dir, processName(rename, {base: base, ext: ext.substr(1)})) : dest;
 
-    tmp.tmpName(function (err, tmpDest) {
+    image.toFile(dest, function (err, info) {
       if (err) {
         return callback(err);
       }
 
-      image.toFile(tmpDest, function (err, info) {
-        if (err) {
-          return callback(err);
-        }
+      grunt.verbose.writeln('Images: ' + chalk.cyan(src) + ' -> ' + chalk.cyan(dest));
 
-        finalDest = processDest(finalDest, _.extend({base: base, ext: ext.substr(1)}, info));
-
-        fs.rename(tmpDest, finalDest, function (err) {
-          if (err) {
-            return callback(err);
-          }
-
-          grunt.verbose.writeln('Images: ' + chalk.cyan(src) + ' -> ' + chalk.cyan(finalDest));
-
-          callback(null, info);
-        });
-      });
+      callback(null, info);
     });
   };
 
-  var processDest = function (dest, data) {
-    return dest.replace(/{([^{}]*)}/g,
+  var processName = function (name, data) {
+    return name.replace(/{([^{}]*)}/g,
       function (a, b) {
         var r = data[b];
         return typeof r === 'string' || typeof r === 'number' ? r : a;

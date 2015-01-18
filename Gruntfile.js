@@ -34,17 +34,17 @@ module.exports = function (grunt) {
         options: {
           background: 'white',
           flatten: true,
-          resize: [48, 48],
+          resize: [32, 32],
           rotate: 180
         }
       },
       rename: {
         files: files,
         options: {
-          rename: '{base}-{width}x{height}.{ext}',
           tasks: [
-            {resize: 48},
-            {resize: 32}
+            {resize: 32, rename: '{base}-32x32.{ext}'},
+            {resize: 32, rename: '{base}-16x16@2x.{ext}'},
+            {resize: 16, rename: '{base}-16x16.{ext}'}
           ]
         }
       }

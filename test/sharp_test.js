@@ -21,10 +21,12 @@ exports.sharp = {
   },
   rename: function (test) {
     testExistence(test, [
-      'tmp/copy_test_files/icon-48x48.png',
       'tmp/copy_test_files/icon-32x32.png',
-      'tmp/copy_test_files/icon-inv-48x48.png',
-      'tmp/copy_test_files/icon-inv-32x32.png'
+      'tmp/copy_test_files/icon-16x16@2x.png',
+      'tmp/copy_test_files/icon-16x16.png',
+      'tmp/copy_test_files/icon-inv-32x32.png',
+      'tmp/copy_test_files/icon-inv-16x16@2x.png',
+      'tmp/copy_test_files/icon-inv-16x16.png'
     ]);
   }
 };

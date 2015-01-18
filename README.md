@@ -37,11 +37,6 @@ The list of tasks you want to run for an image. Each task is a set of transforma
 
 If you only want to apply a single set of transformations, you can obviate the `tasks` option and describe the transformations directly in the `options` object.
 
-#### rename
-Type: `String`
-
-The name of the resulting image. It can make use of placeholders such as `{base}`, `{ext}`, `{width}` and `{height}`.
-
 ### Usage
 
 To transform all images in a folder using a single set of transformation:
@@ -77,11 +72,11 @@ sharp: {
       dest: 'build/images/'
     }],
     options: {
-      rename: 'apple-touch-icon-{width}x{height}.{ext}',
       tasks: [
-        {resize: 76},
-        {resize: 120, grayscale: true},
-        {resize: 152, interpolateWith: 'nearest'}
+        {resize: 64, rename: '{base}-32x32@2x.{ext}'},
+        {resize: 32, rename: '{base}-32x32.{ext}'},
+        {resize: 32, rename: '{base}-16x16@2x.{ext}'},
+        {resize: 16, rename: '{base}-16x16.{ext}'}
       ]
     }
   }
