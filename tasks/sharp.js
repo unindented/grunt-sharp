@@ -65,6 +65,9 @@ module.exports = function (grunt) {
           if (data[op]) {
             data[op].apply(data, [].concat(args));
           }
+          else if (op !== 'rename') {
+            grunt.log.writeln(chalk.red('Skipping unknown operation: ' + op));
+          }
         });
 
         writeImage(data, image, task.rename, callback);
