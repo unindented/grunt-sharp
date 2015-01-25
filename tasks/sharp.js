@@ -13,14 +13,21 @@ module.exports = function (grunt) {
 
   var getImages = function (files) {
     return _.reduce(files, function (memo, filePair) {
-      var isExpandedPair = filePair.orig.expand || false;
+      var isExpandedPair = !!filePair.orig.expand;
+      var isExtDotLast = (filePair.orig.extDot === 'last');
       var isDirectory = (detectDestType(filePair.dest) === 'directory');
 
+      var extDot = {
+        first: /.*?(\.[^\/]*)$/,
+        last: /.*?(\.[^\/\.]*)$/
+      };
+
       var images = _.map(filePair.src, function (src) {
+        var ext = src.replace(isExtDotLast ? extDot.last : extDot.first, '$1');
         var dest = (!isExpandedPair && isDirectory) ?
           unixifyPath(path.join(filePair.dest, src)) : filePair.dest;
 
-        return {src: src, dest: dest};
+        return {src: src, ext: ext, dest: dest};
       });
 
       return memo.concat(images);
@@ -28,11 +35,9 @@ module.exports = function (grunt) {
   };
 
   var modifyImages = function (images, options, done) {
-    var tasks = _.map(images, function (img) {
+    var tasks = _.map(images, function (image) {
       return function (callback) {
-        grunt.file.mkdir(path.dirname(img.dest));
-
-        modifyImage(img.src, img.dest, options, callback);
+        modifyImage(image, options, callback);
       };
     });
 
@@ -52,17 +57,17 @@ module.exports = function (grunt) {
     });
   };
 
-  var modifyImage = function (src, dest, options, done) {
+  var modifyImage = function (image, options, done) {
     var tasks = _.map(options.tasks || [options], function (task) {
       return function (callback) {
-        var image = sharp(src);
+        var data = sharp(image.src);
         _.map(task, function (args, op) {
-          if (image[op]) {
-            image[op].apply(image, [].concat(args));
+          if (data[op]) {
+            data[op].apply(data, [].concat(args));
           }
         });
 
-        writeImage(image, src, dest, task.rename, callback);
+        writeImage(data, image, task.rename, callback);
       };
     });
 
@@ -75,14 +80,18 @@ module.exports = function (grunt) {
     });
   };
 
-  var writeImage = function (image, src, dest, rename, callback) {
+  var writeImage = function (data, image, rename, callback) {
+    var src = image.src;
+    var ext = image.ext;
+    var dest = image.dest;
     var dir = path.dirname(dest);
-    var ext = path.extname(dest);
     var base = path.basename(dest, ext);
+
+    grunt.file.mkdir(dir);
 
     dest = rename ? path.join(dir, processName(rename, {base: base, ext: ext.substr(1)})) : dest;
 
-    image.toFile(dest, function (err, info) {
+    data.toFile(dest, function (err, info) {
       if (err) {
         return callback(err);
       }

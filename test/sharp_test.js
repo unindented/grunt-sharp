@@ -16,7 +16,7 @@ exports.sharp = {
   main: function (test) {
     testExistence(test, [
       'tmp/copy_test_files/icon.png',
-      'tmp/copy_test_files/icon-inv.png'
+      'tmp/copy_test_files/icon.inv.png'
     ]);
   },
   rename: function (test) {
@@ -24,9 +24,9 @@ exports.sharp = {
       'tmp/copy_test_files/icon-32x32.png',
       'tmp/copy_test_files/icon-16x16@2x.png',
       'tmp/copy_test_files/icon-16x16.png',
-      'tmp/copy_test_files/icon-inv-32x32.png',
-      'tmp/copy_test_files/icon-inv-16x16@2x.png',
-      'tmp/copy_test_files/icon-inv-16x16.png'
+      'tmp/copy_test_files/icon-32x32.inv.png',
+      'tmp/copy_test_files/icon-16x16@2x.inv.png',
+      'tmp/copy_test_files/icon-16x16.inv.png'
     ]);
   }
 };
