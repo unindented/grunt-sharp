@@ -1,4 +1,4 @@
-# grunt-sharp [![Build Status](https://img.shields.io/travis/unindented/grunt-sharp.svg)](http://travis-ci.org/unindented/grunt-sharp) [![Dependency Status](https://img.shields.io/gemnasium/unindented/grunt-sharp.svg)](https://gemnasium.com/unindented/grunt-sharp)
+# grunt-sharp [![Version](https://img.shields.io/npm/v/grunt-sharp.svg)](https://www.npmjs.com/package/grunt-sharp) [![Build Status](https://img.shields.io/travis/unindented/grunt-sharp.svg)](http://travis-ci.org/unindented/grunt-sharp) [![Dependency Status](https://img.shields.io/gemnasium/unindented/grunt-sharp.svg)](https://gemnasium.com/unindented/grunt-sharp)
 
 > Resize JPEG, PNG, WebP and TIFF images.
 
