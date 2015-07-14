@@ -35,7 +35,8 @@ module.exports = function (grunt) {
           background: 'white',
           flatten: true,
           resize: [32, 32],
-          rotate: 180
+          rotate: 180,
+          foo: 'bar'
         }
       },
       rename: {

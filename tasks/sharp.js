@@ -50,7 +50,7 @@ module.exports = function (grunt) {
         return memo + result.length;
       }, 0);
 
-      grunt.log.writeln('Generated ' +
+      grunt.log.ok('Generated ' +
         chalk.cyan(total.toString()) + (total === 1 ? ' image' : ' images'));
 
       done();
@@ -66,7 +66,7 @@ module.exports = function (grunt) {
             data[op].apply(data, [].concat(args));
           }
           else if (op !== 'rename') {
-            grunt.log.writeln(chalk.red('Skipping unknown operation: ' + op));
+            grunt.log.warn('Skipping unknown operation: ' + op);
           }
         });
 
