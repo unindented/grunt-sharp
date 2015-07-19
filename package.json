@@ -2,6 +2,7 @@
   "name":        "grunt-sharp",
   "description": "Resize JPEG, PNG, WebP and TIFF images.",
   "version":     "0.10.2",
+  "license":     "MIT",
 
   "author": {
     "name":  "Daniel Perez Alvarez",
