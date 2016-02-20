@@ -10,8 +10,15 @@ addons:
     packages:
       - g++-4.8
 
-env:
-  CXX=g++-4.8
+env: CXX=g++-4.8
+
+deploy:
+  provider: npm
+  email: unindented@gmail.com
+  api_key:
+    secure: fllIBnzx5PataOLG+ylI+Yk56yx610rCkhADM6yHOtT4YRF14dAR7fmcQLJzXLAad387ShkSCVGeJDvPuLaCEjpk+JJ0knD0tCFGZYkoYd7cSZOox5iHhIWyfjVOxw70r2TdFrIRO6wTxCNsU5MPsv8wmGvfjh3hPiUcRk47Njk=
+  on:
+    tags: true
 
 before_install:
   - npm install -g grunt-cli
