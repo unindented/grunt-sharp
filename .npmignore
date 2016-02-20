@@ -1,13 +1,3 @@
-.gitignore
-
-# Linter setups
-.jscsrc
-.jsfmtrc
-.jshintrc
-
-# Travis info
-.travis.yml
-
-Gruntfile.js
-
-test
+/.*
+/Gruntfile.js
+/test/
