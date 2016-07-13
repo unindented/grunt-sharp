@@ -19,7 +19,7 @@
     "test": "grunt test"
   },
   "dependencies": {
-    "async": "^1.2.1",
+    "async": "^2.0.0",
     "chalk": "^1.0.0",
     "sharp": "^0.15.0"
   },
